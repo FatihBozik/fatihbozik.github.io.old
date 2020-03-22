@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Fatih Bozik</title>
+    <link>http://fatihbozik.github.io/</link>
+    <description>Recent content on Fatih Bozik</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>tr</language>
+    <copyright>Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved.</copyright>
+    <lastBuildDate>Thu, 28 Feb 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://fatihbozik.github.io/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Hakkımda</title>
+      <link>http://fatihbozik.github.io/about/</link>
+      <pubDate>Thu, 28 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://fatihbozik.github.io/about/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Heap Space vs Stack</title>
+      <link>http://fatihbozik.github.io/post/heap-vs-stack/</link>
+      <pubDate>Wed, 09 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://fatihbozik.github.io/post/heap-vs-stack/</guid>
+      <description>&lt;p&gt;Java&amp;rsquo;da &lt;strong&gt;primitif&lt;/strong&gt; ve &lt;strong&gt;referans&lt;/strong&gt; değişkeni olmak üzere 2 tip değişken vardır.&lt;/p&gt;</description>
+    </item>
+    
+  </channel>
+</rss>

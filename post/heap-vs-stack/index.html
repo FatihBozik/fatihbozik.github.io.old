@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+<title>
+  
+     Heap Space vs Stack | 
+    Fatih Bozik
+  
+</title><meta name="description" content="Sample article showcasing basic Markdown syntax and formatting for HTML elements."><meta name="author" content="Fatih Bozik">
+
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/themes/prism-okaidia.min.css">
+    
+
+
+
+    
+        
+            <link rel="stylesheet" href="/dist/main.37ab3f61b95417873748.min.css">
+        
+    
+
+
+<link rel="stylesheet" href="/css/custom.css">
+
+
+<link rel="canonical" href="http://fatihbozik.github.io/post/heap-vs-stack/"><meta property="og:title" content="Heap Space vs Stack" />
+<meta property="og:description" content="Sample article showcasing basic Markdown syntax and formatting for HTML elements." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="http://fatihbozik.github.io/post/heap-vs-stack/" />
+<meta property="article:published_time" content="2016-03-09T00:00:00+00:00" />
+<meta property="article:modified_time" content="2016-03-09T00:00:00+00:00" />
+<meta itemprop="name" content="Heap Space vs Stack">
+<meta itemprop="description" content="Sample article showcasing basic Markdown syntax and formatting for HTML elements.">
+<meta itemprop="datePublished" content="2016-03-09T00:00:00&#43;00:00" />
+<meta itemprop="dateModified" content="2016-03-09T00:00:00&#43;00:00" />
+<meta itemprop="wordCount" content="402">
+
+
+
+<meta itemprop="keywords" content="java,heap,stack," /><meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Heap Space vs Stack"/>
+<meta name="twitter:description" content="Sample article showcasing basic Markdown syntax and formatting for HTML elements."/>
+
+</head>
+<body>
+    
+<nav class="navbar navbar-expand-md navbar-light bg-light fixed-top shadow-sm" id="navbar-main-menu">
+    <div class="container">
+        <a class="navbar-brand font-weight-bold" href="http://fatihbozik.github.io">Fatih Bozik</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#main-menu" aria-controls="main-menu" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="main-menu">
+            <ul class="navbar-nav ml-auto">
+                
+                    <li class="nav-item"><a class="nav-link" href="/">Anasayfa</a></li>
+                
+                    <li class="nav-item"><a class="nav-link" href="/about/">Hakkımda</a></li>
+                
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+
+
+    
+<main class="content-page container pt-7 pb-5">
+    
+    <div class="row">
+        <div class="col">
+            <article>
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="meta text-muted mb-3">
+                            <p class="created text-muted text-uppercase font-weight-bold mb-1">March 9, 2016</p>
+                            <span class="mr-2"><i class="fas fa-book-open mr-2"></i></span>
+                            <span><i class="fas fa-clock mr-2"></i></span>
+                        </div>
+
+                        <h1>Heap Space vs Stack</h1>
+
+                        <ul class="authors list-inline"><li class="list-inline-item mr-3">
+                    <div class="media author"><div class="media-body">
+                            <h5 class="name my-0"><a href="/authors/fatih-bozik/" class="small">Fatih Bozik</a>
+                            </h5></div>
+                    </div>
+                </li></ul>
+                    </div>
+                </div><div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div class="content">
+                            <p>Java&rsquo;da <strong>primitif</strong> ve <strong>referans</strong> değişkeni olmak üzere 2 tip değişken vardır.</p>
+<h2 id="primitif-değişkenler">Primitif Değişkenler</h2>
+<p>Primitif değişkenler değerlerini kendi üzerlerinde taşırlar. Bunlar 8 tipten biri olabilir.</p>
+<table>
+<thead>
+<tr>
+<th>Veri tipleri</th>
+<th>Java dilinde karşılıkları</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Tam sayılar</td>
+<td>byte, short, int, long</td>
+</tr>
+<tr>
+<td>Kesirli sayılar</td>
+<td>float, double</td>
+</tr>
+<tr>
+<td>Karakter</td>
+<td>char</td>
+</tr>
+<tr>
+<td>Mantıksal</td>
+<td>boolean</td>
+</tr>
+</tbody>
+</table>
+<h2 id="referans-değişkeni">Referans Değişkeni</h2>
+<p>Referans değişkeni bir nesneyi işaret eder (C/C++ programcıları bunları C/C++'daki <strong>pointer</strong>lara benzetebilir). Referans değişkenlerine örnek olarak herhangi bir sınıf tipindeki değişkenleri verebiliriz. <strong>Örneğin:</strong> <code>Date date</code>, <code>String str</code>.</p>
+<p>Primitif değişkenler ve referans değişkenleri şu durumlarda olabilirler.</p>
+<ul>
+<li><strong>class variable :</strong> Sınıfa ait değişken,</li>
+<li><strong>instance variable :</strong> Nesneye ait değişken,</li>
+<li><strong>local variable</strong> : Metodun içinde tanımlanan değişken (metod parametreleri de dahil).</li>
+</ul>
+<h2 id="veriler-nerede-saklanır">Veriler Nerede Saklanır?</h2>
+<ul>
+<li>
+<p>Tüm nesneler <strong>heap</strong> alanında depolanır. Örnek değişkenler(instance variables) de nesneye ait olduklarından <strong>heap</strong> alanında depolanır.</p>
+</li>
+<li>
+<p>Tüm local değişkenler <strong>yığın (stack)</strong> da depolanır.</p>
+</li>
+<li>
+<p>Sınıf değişkenleri (yani static tanımlanmış değişkenler) Java 7&rsquo;de heap bölgesi içinde yer alan <strong>PermGen (Permanent Generation)</strong> adı verilen özel bir alanda depolanıyor.</p>
+<p>Java 8 ile birlikte PermGen alanı kaldırıldı. Oracle HotSpot JVM, artık sınıf metadatalarını Java Process Heap(Native Memory) alanında yer alan <strong>Metaspace</strong> alanında depoluyor.</p>
+<p>Özetlersek static tanımlanmış değişkenler Java 8 de native memory içinde <strong>Metaspace</strong> alanında, Java 7&rsquo;de heap bölgesi içerisinde yer alan <strong>PermGen</strong> alanında depolanıyor.</p>
+</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th align="center">Oracle HotSpot Heap Structure</th>
+<th align="center">JDK 1.8 Oracle HotSpot Heap Structure</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center"><img src="/images/permgen.png" alt=""></td>
+<td align="center"><img src="/images/metaspace.png" alt=""></td>
+</tr>
+</tbody>
+</table>
+<h2 id="analiz">Analiz</h2>
+<p>Örnek bir kod üzerinden anlatmak gerekirse,</p>
+<script type="application/javascript" src="https://gist.github.com/FatihBozik/8ddab996978a20b24219c28a1ec6e775.js"></script>
+
+<ul>
+<li>
+<p><code>g</code>, <code>i</code>, <code>myClass2</code> değişkenleri instance variable olduklarından bu değişkenler oluşturulmaz (programımızda hiç Test nesnesi oluşturmadık). Hiç bir yerde depolanmaz. Dolayısıyla initialization(ilk değer atamaları) da yapılmaz. <code>myClass2 referans değişkeninin göstereceği MyClass nesnesi</code> de oluşturulmaz. <code>i referans değişkeninin göstereceği Integer nesnesi</code> de oluşturulmaz.</p>
+</li>
+<li>
+<p><code>h</code>, <code>j</code>, <code>myClass3</code> değişkenleri sınıf değişkeni olduklarından native memorydeki <strong>metaspace</strong> alanında depolanır (Java 8 için). <code>myClass3 referans değişkeninin gösterdiği MyClass nesnesi</code> <strong>heap</strong>te depolanır. Aynı şekilde <code>j nesnesinin gösterdiği Integer nesnesi</code> <strong>heap</strong>te depolanır.</p>
+</li>
+<li>
+<p><code>a</code>, <code>b</code> ve <code>myClass</code> local değişken olduklarından <strong>stack</strong>te depolanır.</p>
+</li>
+<li>
+<p><code>b referans değişkeninin gösterdiği Double nesnesi</code> <strong>heap</strong>te depolanır.</p>
+</li>
+<li>
+<p><code>myClass referans değişkeninin gösterdiği MyClass nesnesi</code> <strong>heap</strong>te depolanır.</p>
+</li>
+<li>
+<p><code>age</code>, <code>myDate</code>, <code>name</code> değişkenleri instance variable olduklarından nesne ile birlikte <strong>heap</strong>te depolanır. <code>myDate referans değişkeninin gösterdiği Date nesnesi</code> <strong>heap</strong>te depolanır. Aynı şekilde name referans değişkeninin göstereceği nesne <strong>heap</strong>te depolanır (new ile oluşturulmadığından dolayı heap içinde <strong>string constant pool</strong> denilen alanda bulunur).</p>
+</li>
+<li>
+<p><code>number</code>, <code>str</code> sınıf değişkenleri native memorydeki <strong>metaspace</strong> alanında depolanır. <code>str referans değişkeninin gösterdiği String nesnesi</code> <strong>heap</strong>te depolanır. (heap içinde <strong>string constant pool</strong> denilen alanda)</p>
+</li>
+<li>
+<p><code>param</code> local değişken olduğundan <strong>stack</strong>te depolanır.</p>
+</li>
+<li>
+<p><code>args</code> local değişkeni <strong>stack</strong>te depolanır.</p>
+</li>
+<li>
+<p>setName methoduna gönderilen argümanda <code>&quot;fatih&quot;</code> bir nesne olduğundan heap alanında depolanır. (<strong>string constant pool</strong> denilen alanda)</p>
+</li>
+</ul>
+                        </div><div class="tags my-3"><a class="badge badge-pill badge-light border mr-2" href="/tags/java">
+                                    <i class="fas fa-tag mr-2"></i>java
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/heap">
+                                    <i class="fas fa-tag mr-2"></i>heap
+                                </a><a class="badge badge-pill badge-light border mr-2" href="/tags/stack">
+                                    <i class="fas fa-tag mr-2"></i>stack
+                                </a></div><ul class="share nav my-3 justify-content-end">
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://twitter.com/intent/tweet?url=http%3a%2f%2ffatihbozik.github.io%2fpost%2fheap-vs-stack%2f&text=Heap%20Space%20vs%20Stack">
+              <i class="fa-fw fab fa-twitter"></i>
+          </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.linkedin.com/shareArticle?url=http%3a%2f%2ffatihbozik.github.io%2fpost%2fheap-vs-stack%2f&title=Heap%20Space%20vs%20Stack">
+                <i class="fa-fw fab fa-linkedin-in"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://www.facebook.com/sharer.php?u=http%3a%2f%2ffatihbozik.github.io%2fpost%2fheap-vs-stack%2f&t=Heap%20Space%20vs%20Stack">
+                <i class="fa-fw fab fa-facebook-f"></i>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" target="_blank" href="https://reddit.com/submit?url=http%3a%2f%2ffatihbozik.github.io%2fpost%2fheap-vs-stack%2f&title=Heap%20Space%20vs%20Stack">
+                <i class="fa-fw fab fa-reddit-alien"></i>
+            </a>
+        </li>
+    </nav>
+                    </div>
+                </div>
+
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "fatihbozik" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+                    </div>
+                </div><div class="row justify-content-center my-3">
+                    <div class="col-lg-8">
+                        <div id="commento"></div>
+                        <script src="https://commento.io"></script>
+                    </div>
+                </div></article>
+        </div>
+    </div>
+
+    
+</main>
+
+
+    <footer class="footer text-center bg-dark py-6">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <ul class="list-inline">
+                    <li class="list-inline-item"><a href="http://fatihbozik.github.io/index.xml" rel="alternate" type="application/rss+xml" class="icons d-block">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-rss fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a></li><li class="list-inline-item">
+                        <a href="mailto://mailto:bozikfatih@gmail.com" class="icons d-block">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-envelope fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li><li class="list-inline-item">
+                            <a href="https://github.com/fatihbozik" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-github fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://linkedin.com/in/fatihbozik" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-linkedin fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://medium.com/@bozikfatih" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-medium fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://stackoverflow.com/users/2763057" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-stack-overflow fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li><li class="list-inline-item">
+                            <a href="https://twitter.com/bozikfatih" class="icons d-block">
+                                <span class="fa-stack fa-lg">
+                                    <i class="fa fa-circle fa-stack-2x"></i>
+                                    <i class="fab fa-twitter fa-stack-1x fa-inverse"></i>
+                                </span>
+                            </a>
+                        </li>
+                </ul>
+
+                <p class="text-muted">
+                    
+                        Copyright © 2008–2019, Steve Francia and the Hugo Authors; all rights reserved.
+                    
+                </p>
+
+                <p class="text-muted">
+                Powered by <a href="https://gohugo.io" target="_blank">Hugo</a> with <a href="https://github.com/puresyntax71/hugo-theme-chunky-poster" target="_blank">Chunky Poster</a>.
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    
+    
+        
+            <script src="/dist/main.2ed44664366c9940537d.min.js"></script>
+        
+    
+
+
+
+<script>
+    window.Prism = window.Prism || {};
+    window.Prism.manual = true;
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/components/prism-core.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.17.1/plugins/autoloader/prism-autoloader.min.js"></script>
+
+
+
+
+
+
+    
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+	ga('create', 'UA-XXXX', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+
+</body>
+</html>
